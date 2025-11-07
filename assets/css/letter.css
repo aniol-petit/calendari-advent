@@ -160,7 +160,7 @@ body::before {
     position: absolute;
     top: 0;
     left: 0;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--warm-taupe);
     line-height: 1.6;
     max-width: 200px;
@@ -184,7 +184,7 @@ body::before {
 
 .letter-greeting {
     font-family: 'Crimson Text', serif;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: var(--warm-taupe);
     margin-bottom: 1.5rem;
     margin-top: 0.5rem;
@@ -241,13 +241,13 @@ body::before {
 }
 
 .closing-text {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     margin-bottom: 0.5rem;
 }
 
 .closing-signature {
     font-family: 'Crimson Text', serif;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--warm-taupe);
     margin: 0;
     font-style: italic;
