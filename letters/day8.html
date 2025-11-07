@@ -29,22 +29,39 @@
             <div class="letter-decoration top-right">💕</div>
             <div class="letter-decoration bottom-left">✨</div>
             <div class="letter-decoration bottom-right">❄</div>
-
-            <div class="letter-header">
-                <div class="letter-day">Dia 8</div>
-                <div class="letter-date">8 de desembre</div>
-            </div>
-
-            <div class="letter-content">
-                <div class="letter-placeholder">
-                    {{Your letter for day 8 goes here}}
+            <div class="letter-masthead">
+                <div class="letter-address letter-sender">
+                    <span class="address-label">Remitent</span>
+                    <p>{{El teu nom}}</p>
+                    <p>{{Ciutat o adreça}}</p>
+                </div>
+                <div class="letter-stamp">
+                    <span class="stamp-day">Dia 8</span>
+                    <span class="stamp-year">2024</span>
+                </div>
+                <div class="letter-address letter-recipient">
+                    <span class="address-label">Destinatària</span>
+                    <p>{{Nom d'ella}}</p>
+                    <p>{{Un detall especial}}</p>
                 </div>
             </div>
 
-            <div class="letter-signature">
-                <div class="signature-line">Amb amor,</div>
-                <div class="signature-date">8 de desembre</div>
+            <div class="letter-date-line">Barcelona, 8 de desembre de 2024</div>
+
+            <div class="letter-greeting">Estimada {{Nom}},</div>
+
+            <div class="letter-content">
+                <p class="letter-placeholder">
+                    {{La teva carta del dia 8 va aquí}}
+                </p>
             </div>
+
+            <div class="letter-closing">
+                <p class="closing-text">Amb tot el meu amor,</p>
+                <p class="closing-signature">{{El teu nom}}</p>
+            </div>
+
+            <div class="letter-postscript"><span>P.S.</span> {{Comparteix un pensament tendre o un record aquí}}</div>
         </div>
 
         <a href="../index.html" class="back-button">Tornar al Calendari</a>

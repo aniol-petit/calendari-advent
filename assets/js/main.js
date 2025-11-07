@@ -1,7 +1,7 @@
 // ============================================
 // Mes objectiu per al calendari (10 = novembre per proves, 11 = desembre en producció)
 // ============================================
-const TARGET_MONTH = 10;
+const TARGET_MONTH = 11;
 const PASSWORD_HASH = '65039b24cf42f74dafefd55b5a71737d4d1b964907341e1bd1b45061ec3f3a9d';
 const PASSWORD_STORAGE_KEY = 'advent_password_verified';
 let easterEggsInitialized = false;
@@ -130,7 +130,7 @@ function createDoor(dayNumber, isTargetMonth, currentDate, isPastTargetMonth) {
         isUnlocked = currentDate >= dayNumber;
     }
     // To unlock all doors during development, uncomment the line below:
-    // isUnlocked = true;
+    isUnlocked = true;
 
     if (isUnlocked) {
         door.classList.add('unlocked');
