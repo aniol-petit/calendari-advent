@@ -413,6 +413,10 @@ body::before {
         padding-right: 0.5rem;
     }
 
+    .closing-text {
+        font-size: 1rem;
+    }
+
     .closing-signature {
         font-size: 1.7rem;
     }
@@ -453,8 +457,12 @@ body::before {
     }
 
     .letter-greeting {
-        font-size: 1.5rem;
+        font-size: 1rem;
         margin-bottom: 1rem;
+    }
+
+    .letter-content {
+        font-size: 1rem;
     }
 
     .letter-placeholder {
@@ -463,6 +471,10 @@ body::before {
 
     .letter-closing {
         margin-top: 1.8rem;
+    }
+
+    .closing-text {
+        font-size: 1rem;
     }
 
     .closing-signature {
@@ -494,7 +506,7 @@ body::before {
     }
 
     .letter-greeting {
-        font-size: 1.4rem;
+        font-size: 0.9rem;
     }
 
     .letter-content {
@@ -507,6 +519,14 @@ body::before {
 
     .letter-closing {
         margin-top: 1.5rem;
+    }
+
+    .closing-text {
+        font-size: 0.9rem;
+    }
+
+    .closing-signature {
+        font-size: 0.9rem;
     }
 
     .letter-postscript {

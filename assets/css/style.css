@@ -645,6 +645,15 @@ body::before {
     animation: confetti-fall linear forwards;
 }
 
+.confetti-piece.confetti-emoji {
+    width: auto;
+    height: auto;
+    background: transparent;
+    border-radius: 0;
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 @keyframes confetti-fall {
     0% {
         transform: translateY(0) rotate(0deg);

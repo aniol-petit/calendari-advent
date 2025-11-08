@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCalendar();
     initializePasswordProtection();
     checkForReturnFromLetter();
+    // Check if day 24 was opened previously and show day 25 button
+    handleSecretDay25();
 });
 
 // Calendar Initialization
@@ -311,9 +313,9 @@ function handleSecretDay25() {
     const secretButton = document.getElementById('secret-day25');
     if (!secretButton) return;
 
-    const day24Opened = sessionStorage.getItem('day24Opened') === 'true';
+    const day24Opened = localStorage.getItem('day24Opened') === 'true';
 
-    // Show button immediately after reading day 24
+    // Show button immediately after reading day 24 (persists after closing app)
     if (day24Opened) {
         secretButton.classList.remove('hidden');
         secretButton.classList.add('visible');
@@ -429,7 +431,7 @@ function showDay25PasswordModal() {
 
 // Easter egg #9 – confetti celebration after opening day 24 and returning
 function triggerConfettiIfNeeded() {
-    const day24Opened = sessionStorage.getItem('day24Opened') === 'true';
+    const day24Opened = localStorage.getItem('day24Opened') === 'true';
     const confettiAlreadyShown = sessionStorage.getItem('confettiShown') === 'true';
     if (!day24Opened || confettiAlreadyShown) {
         return;
@@ -444,17 +446,39 @@ function launchConfetti() {
     if (!container) return;
 
     container.classList.add('active');
-    const colors = ['#C97D7D', '#E8C99B', '#F5E6E6', '#8B9DC3', '#A68B7A'];
-
-    for (let i = 0; i < 120; i++) {
-        const piece = document.createElement('span');
-        piece.className = 'confetti-piece';
-        piece.style.left = `${Math.random() * 100}%`;
-        piece.style.animationDelay = `${Math.random() * 2}s`;
-        piece.style.animationDuration = `${3 + Math.random() * 2}s`;
-        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-        container.appendChild(piece);
+    
+    // Christmas colors: red, green, gold, white
+    const christmasColors = ['#DC143C', '#228B22', '#FFD700', '#FFFFFF', '#FF6347', '#32CD32'];
+    
+    // Christmas emojis
+    const christmasEmojis = ['❄', '⭐', '🎄', '🎁', '❄', '⭐'];
+    
+    // Create confetti pieces (mix of colored rectangles and emojis)
+    for (let i = 0; i < 150; i++) {
+        const isEmoji = Math.random() > 0.5; // 50% chance of emoji vs colored piece
+        
+        if (isEmoji) {
+            // Create emoji piece
+            const piece = document.createElement('span');
+            piece.className = 'confetti-piece confetti-emoji';
+            piece.textContent = christmasEmojis[Math.floor(Math.random() * christmasEmojis.length)];
+            piece.style.left = `${Math.random() * 100}%`;
+            piece.style.animationDelay = `${Math.random() * 2}s`;
+            piece.style.animationDuration = `${3 + Math.random() * 2}s`;
+            piece.style.fontSize = `${20 + Math.random() * 15}px`;
+            piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+            container.appendChild(piece);
+        } else {
+            // Create colored rectangle piece
+            const piece = document.createElement('span');
+            piece.className = 'confetti-piece';
+            piece.style.left = `${Math.random() * 100}%`;
+            piece.style.animationDelay = `${Math.random() * 2}s`;
+            piece.style.animationDuration = `${3 + Math.random() * 2}s`;
+            piece.style.backgroundColor = christmasColors[Math.floor(Math.random() * christmasColors.length)];
+            piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+            container.appendChild(piece);
+        }
     }
 
     setTimeout(() => {
