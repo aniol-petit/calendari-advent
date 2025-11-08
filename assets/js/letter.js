@@ -20,13 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Check if question was already shown for this day
-    const questionShownKey = `questionShown_day${dayNumber}`;
-    const questionShown = localStorage.getItem(questionShownKey);
-    
-    if (questionShown === 'true') {
-        // Show the question tab
-        showQuestionTab(dayNumber);
+    // Check if question was already shown for this day (skip day 25)
+    if (dayNumber !== 25) {
+        const questionShownKey = `questionShown_day${dayNumber}`;
+        const questionShown = localStorage.getItem(questionShownKey);
+        
+        if (questionShown === 'true') {
+            // Show the question tab
+            showQuestionTab(dayNumber);
+        }
     }
 });
 
@@ -50,10 +52,7 @@ function showQuestionTab(dayNumber) {
         window.location.href = '../index.html';
     });
     
-    // Add tab to the letter container
-    const letterContainer = document.querySelector('.letter-container');
-    if (letterContainer) {
-        letterContainer.appendChild(tab);
-    }
+    // Add tab directly to body so it's positioned relative to viewport from the start
+    document.body.appendChild(tab);
 }
 

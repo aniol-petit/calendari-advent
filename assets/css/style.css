@@ -1,7 +1,3 @@
-/* ============================================
-   ADVENT CALENDAR - ROMANTIC STYLE
-   ============================================ */
-
 :root {
     --cream: #FFF8F0;
     --gold: #E8C99B;
@@ -63,6 +59,8 @@ body::before {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     animation: snowfall linear infinite;
     top: -10%;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .snowflake:nth-child(1) { left: 10%; animation-duration: 10s; animation-delay: 0s; }

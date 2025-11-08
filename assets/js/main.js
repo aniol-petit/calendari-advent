@@ -10,8 +10,8 @@ let easterEggsInitialized = false;
 // QUESTIONS DATABASE - Daily questions for the game
 // ============================================
 const DAILY_QUESTIONS = {
-    1: { question: "Quin és el teu color preferit?", correctAnswer: "rosa" },
-    2: { question: "Quin és el teu menjar preferit?", correctAnswer: "sushi" },
+    1: { question: "Per començar, una de MOLT fàcil: quants anys farem aquest hivern?", correctAnswer: "4" },
+    2: { question: "Com es deia la professora de bio que teníem aleshores?", correctAnswer: "marga" },
     3: { question: "Quin és el teu lloc preferit per relaxar-te?", correctAnswer: "" },
     4: { question: "Quin és el teu animal preferit?", correctAnswer: "" },
     5: { question: "Quin és el teu llibre preferit?", correctAnswer: "" },
@@ -161,7 +161,7 @@ function createDoor(dayNumber, isTargetMonth, currentDate, isPastTargetMonth) {
         isUnlocked = currentDate >= dayNumber;
     }
     // To unlock all doors during development, uncomment the line below:
-    // isUnlocked = true;
+    isUnlocked = true;
 
     if (isUnlocked) {
         door.classList.add('unlocked');
@@ -272,14 +272,16 @@ function initializeEasterEggs() {
     triggerConfettiIfNeeded();
 }
 
-// Easter egg #3 – secret message after clicking the title
+// Easter egg #3 – secret message after clicking any snowflake
 function setupTitleSecret() {
-    const title = document.querySelector('.main-title');
-    if (!title) return;
+    const snowflakes = document.querySelectorAll('.snowflake');
+    if (!snowflakes || snowflakes.length === 0) return;
 
-    title.addEventListener('click', function() {
-        const secretMessage = 'Has trobat la nota secreta: cada carta és un trosset del meu cor.';
-        showModal('Nota Secreta 💕', secretMessage);
+    snowflakes.forEach(function(snowflake) {
+        snowflake.addEventListener('click', function() {
+            const secretMessage = 'Enhorabona, has trobat una pista que serà crucial al final del calendari! Recorda el següent: Les inicials de cada resposta son importants. Més endavant ho necessitaràs! T\'estimo!';
+            showModal('PISTA IMPORTANT!!!', secretMessage);
+        });
     });
 }
 
@@ -297,7 +299,7 @@ function setupHeartSecret() {
         setTimeout(() => heart.classList.remove('pulse'), 400);
 
         if (clickCount >= 5) {
-            message.textContent = 'Quan prems aquest cor, el meu batega una mica més fort per tu.';
+            message.textContent = 'Mi corazón pulpita por ti!🐙';
             message.classList.add('visible');
             clickCount = 0;
         }
@@ -309,21 +311,120 @@ function handleSecretDay25() {
     const secretButton = document.getElementById('secret-day25');
     if (!secretButton) return;
 
-    const today = new Date();
-    const currentMonth = today.getMonth();
-    const currentDate = today.getDate();
-
-    const isAfterTarget = currentMonth > TARGET_MONTH;
-    const isOnTargetDay = currentMonth === TARGET_MONTH && currentDate >= 25;
     const day24Opened = sessionStorage.getItem('day24Opened') === 'true';
 
-    if (day24Opened && (isAfterTarget || isOnTargetDay)) {
+    // Show button immediately after reading day 24
+    if (day24Opened) {
         secretButton.classList.remove('hidden');
         secretButton.classList.add('visible');
-        secretButton.addEventListener('click', function() {
-            window.location.href = 'letters/day25.html';
-        }, { once: true });
+        
+        // Only add event listener if not already added (check for data attribute)
+        if (!secretButton.dataset.listenerAdded) {
+            secretButton.addEventListener('click', function() {
+                // Check if password has been entered correctly before
+                const passwordVerified = localStorage.getItem('day25PasswordVerified') === 'true';
+                if (passwordVerified) {
+                    // Password already verified, go directly to day 25
+                    window.location.href = 'letters/day25.html';
+                } else {
+                    // Show password modal
+                    showDay25PasswordModal();
+                }
+            });
+            secretButton.dataset.listenerAdded = 'true';
+        }
     }
+}
+
+// Show password modal for day 25
+function showDay25PasswordModal() {
+    const modal = document.getElementById('password-day25-modal');
+    const passwordInput = document.getElementById('password-day25-input');
+    const passwordFeedback = document.getElementById('password-day25-feedback');
+    const passwordSubmit = document.getElementById('password-day25-submit');
+    const passwordCancel = document.getElementById('password-day25-cancel');
+    const modalOverlay = modal.querySelector('.modal-overlay');
+    
+    const DAY25_PASSWORD = '1234';
+    
+    // Reset modal state
+    passwordInput.value = '';
+    passwordFeedback.textContent = '';
+    passwordFeedback.classList.remove('correct', 'incorrect');
+    passwordInput.disabled = false;
+    passwordSubmit.disabled = false;
+    
+    modal.classList.add('active');
+    passwordInput.focus();
+    
+    // Close modal function
+    function closeModal() {
+        modal.classList.remove('active');
+        passwordInput.value = '';
+        passwordFeedback.textContent = '';
+        passwordFeedback.classList.remove('correct', 'incorrect');
+    }
+    
+    // Validate password
+    function validatePassword() {
+        const enteredPassword = passwordInput.value.trim();
+        
+        if (!enteredPassword) {
+            passwordFeedback.textContent = 'Introdueix la contrasenya.';
+            passwordFeedback.classList.add('incorrect');
+            passwordFeedback.classList.remove('correct');
+            return;
+        }
+        
+        if (enteredPassword === DAY25_PASSWORD) {
+            // Correct password - save verification in localStorage
+            localStorage.setItem('day25PasswordVerified', 'true');
+            
+            passwordFeedback.textContent = '✓ Contrasenya correcta!';
+            passwordFeedback.classList.add('correct');
+            passwordFeedback.classList.remove('incorrect');
+            passwordInput.disabled = true;
+            passwordSubmit.disabled = true;
+            
+            setTimeout(() => {
+                closeModal();
+                window.location.href = 'letters/day25.html';
+            }, 1000);
+        } else {
+            // Incorrect password - allow retry
+            passwordFeedback.textContent = 'Contrasenya incorrecta. Torna-ho a provar!';
+            passwordFeedback.classList.add('incorrect');
+            passwordFeedback.classList.remove('correct');
+            passwordInput.focus();
+            passwordInput.select();
+        }
+    }
+    
+    // Remove old listeners and add new ones
+    const newSubmitBtn = passwordSubmit.cloneNode(true);
+    passwordSubmit.parentNode.replaceChild(newSubmitBtn, passwordSubmit);
+    newSubmitBtn.addEventListener('click', validatePassword);
+    
+    const newCancelBtn = passwordCancel.cloneNode(true);
+    passwordCancel.parentNode.replaceChild(newCancelBtn, passwordCancel);
+    newCancelBtn.addEventListener('click', closeModal);
+    
+    passwordInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !passwordInput.disabled) {
+            validatePassword();
+        }
+    });
+    
+    modalOverlay.onclick = closeModal;
+    
+    // Close on Escape key
+    const escapeHandler = function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+            document.removeEventListener('keydown', escapeHandler);
+        }
+    };
+    document.addEventListener('keydown', escapeHandler);
 }
 
 // Easter egg #9 – confetti celebration after opening day 24 and returning
@@ -372,7 +473,10 @@ function checkForReturnFromLetter() {
     const showQuestionForDay = sessionStorage.getItem('showQuestionForDay');
     if (showQuestionForDay) {
         const day = parseInt(showQuestionForDay);
-        showQuestionModal(day);
+        // Skip day 25 - no questions for the secret letter
+        if (day !== 25) {
+            showQuestionModal(day);
+        }
         sessionStorage.removeItem('showQuestionForDay');
         return;
     }
@@ -383,18 +487,26 @@ function checkForReturnFromLetter() {
     
     if (returnedFromLetter === 'true' && dayNumber) {
         const day = parseInt(dayNumber);
-        const questionShownKey = `questionShown_day${day}`;
-        const questionShown = localStorage.getItem(questionShownKey);
-        
-        // Only show question if it hasn't been shown before for this day
-        if (!questionShown) {
-            showQuestionModal(day);
-            localStorage.setItem(questionShownKey, 'true');
+        // Skip day 25 - no questions for the secret letter
+        if (day !== 25) {
+            const questionShownKey = `questionShown_day${day}`;
+            const questionShown = localStorage.getItem(questionShownKey);
+            
+            // Only show question if it hasn't been shown before for this day
+            if (!questionShown) {
+                showQuestionModal(day);
+                localStorage.setItem(questionShownKey, 'true');
+            }
         }
         
         // Clear the return flag
         sessionStorage.removeItem('returnedFromLetter');
         sessionStorage.removeItem('returnedFromDay');
+        
+        // Check if day 24 was just opened and show day 25 button if needed
+        if (day === 24) {
+            handleSecretDay25();
+        }
     }
 }
 
