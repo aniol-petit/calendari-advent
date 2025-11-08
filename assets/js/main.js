@@ -1,15 +1,46 @@
 // ============================================
 // Mes objectiu per al calendari (10 = novembre per proves, 11 = desembre en producció)
 // ============================================
-const TARGET_MONTH = 11;
+const TARGET_MONTH = 10;
 const PASSWORD_HASH = '65039b24cf42f74dafefd55b5a71737d4d1b964907341e1bd1b45061ec3f3a9d';
 const PASSWORD_STORAGE_KEY = 'advent_password_verified';
 let easterEggsInitialized = false;
+
+// ============================================
+// QUESTIONS DATABASE - Daily questions for the game
+// ============================================
+const DAILY_QUESTIONS = {
+    1: { question: "Quin és el teu color preferit?", correctAnswer: "rosa" },
+    2: { question: "Quin és el teu menjar preferit?", correctAnswer: "sushi" },
+    3: { question: "Quin és el teu lloc preferit per relaxar-te?", correctAnswer: "" },
+    4: { question: "Quin és el teu animal preferit?", correctAnswer: "" },
+    5: { question: "Quin és el teu llibre preferit?", correctAnswer: "" },
+    6: { question: "Quin és el teu moment preferit del dia?", correctAnswer: "" },
+    7: { question: "Quin és el teu record preferit amb mi?", correctAnswer: "" },
+    8: { question: "Quin és el teu somni més gran?", correctAnswer: "" },
+    9: { question: "Quin és el teu lloc de vacances preferit?", correctAnswer: "" },
+    10: { question: "Quin és el teu tipus de música preferit?", correctAnswer: "" },
+    11: { question: "Quin és el teu hobby preferit?", correctAnswer: "" },
+    12: { question: "Quin és el teu record de la infància preferit?", correctAnswer: "" },
+    13: { question: "Quin és el teu tipus de pel·lícula preferit?", correctAnswer: "" },
+    14: { question: "Quin és el teu tipus de cuina preferit?", correctAnswer: "" },
+    15: { question: "Quin és el teu tipus de clima preferit?", correctAnswer: "" },
+    16: { question: "Quin és el teu tipus de decoració preferit?", correctAnswer: "" },
+    17: { question: "Quin és el teu tipus de passeig preferit?", correctAnswer: "" },
+    18: { question: "Quin és el teu tipus de conversa preferit?", correctAnswer: "" },
+    19: { question: "Quin és el teu tipus de sorpresa preferit?", correctAnswer: "" },
+    20: { question: "Quin és el teu tipus de gest preferit?", correctAnswer: "" },
+    21: { question: "Quin és el teu tipus de moment romàntic preferit?", correctAnswer: "" },
+    22: { question: "Quin és el teu tipus de celebració preferit?", correctAnswer: "" },
+    23: { question: "Quin és el teu tipus de tradició preferit?", correctAnswer: "" },
+    24: { question: "Quin és el teu desig més gran per al proper any?", correctAnswer: "" }
+};
 
 // Initialize the calendar & gate the experience behind the password
 document.addEventListener('DOMContentLoaded', function() {
     initializeCalendar();
     initializePasswordProtection();
+    checkForReturnFromLetter();
 });
 
 // Calendar Initialization
@@ -130,7 +161,7 @@ function createDoor(dayNumber, isTargetMonth, currentDate, isPastTargetMonth) {
         isUnlocked = currentDate >= dayNumber;
     }
     // To unlock all doors during development, uncomment the line below:
-    isUnlocked = true;
+    // isUnlocked = true;
 
     if (isUnlocked) {
         door.classList.add('unlocked');
@@ -145,16 +176,11 @@ function createDoor(dayNumber, isTargetMonth, currentDate, isPastTargetMonth) {
     doorNumber.className = 'door-number';
     doorNumber.textContent = dayNumber;
 
-    const doorLabel = document.createElement('div');
-    doorLabel.className = 'door-label';
-    doorLabel.textContent = 'Desembre';
-
     const doorIcon = document.createElement('div');
     doorIcon.className = 'door-icon';
     doorIcon.textContent = isUnlocked ? '✉️' : '🔒';
 
     doorFront.appendChild(doorNumber);
-    doorFront.appendChild(doorLabel);
     doorFront.appendChild(doorIcon);
     door.appendChild(doorFront);
 
@@ -174,6 +200,9 @@ function createDoor(dayNumber, isTargetMonth, currentDate, isPastTargetMonth) {
 
 // Open letter page
 function openLetter(dayNumber) {
+    // Set a flag in sessionStorage to indicate we're going to a letter page
+    sessionStorage.setItem('fromCalendar', 'true');
+    sessionStorage.setItem('currentDay', dayNumber.toString());
     window.location.href = `letters/day${dayNumber}.html`;
 }
 
@@ -243,27 +272,14 @@ function initializeEasterEggs() {
     triggerConfettiIfNeeded();
 }
 
-// Easter egg #3 – secret message after clicking the title several times
+// Easter egg #3 – secret message after clicking the title
 function setupTitleSecret() {
     const title = document.querySelector('.main-title');
-    const message = document.getElementById('title-secret');
-    if (!title || !message) return;
-
-    let clickCount = 0;
-    let resetTimer;
+    if (!title) return;
 
     title.addEventListener('click', function() {
-        clickCount += 1;
-        clearTimeout(resetTimer);
-        resetTimer = setTimeout(() => {
-            clickCount = 0;
-        }, 2000);
-
-        if (clickCount >= 7) {
-            message.textContent = 'Has trobat la nota secreta: cada carta és un trosset del meu cor.';
-            message.classList.add('visible');
-            clickCount = 0;
-        }
+        const secretMessage = 'Has trobat la nota secreta: cada carta és un trosset del meu cor.';
+        showModal('Nota Secreta 💕', secretMessage);
     });
 }
 
@@ -344,5 +360,172 @@ function launchConfetti() {
         container.classList.remove('active');
         container.innerHTML = '';
     }, 6000);
+}
+
+// ============================================
+// QUESTION GAME FUNCTIONS
+// ============================================
+
+// Check if user is returning from a letter page and show question
+function checkForReturnFromLetter() {
+    // Check if user clicked the question tab from a letter page
+    const showQuestionForDay = sessionStorage.getItem('showQuestionForDay');
+    if (showQuestionForDay) {
+        const day = parseInt(showQuestionForDay);
+        showQuestionModal(day);
+        sessionStorage.removeItem('showQuestionForDay');
+        return;
+    }
+    
+    // Check if we have a flag indicating return from letter
+    const returnedFromLetter = sessionStorage.getItem('returnedFromLetter');
+    const dayNumber = sessionStorage.getItem('returnedFromDay');
+    
+    if (returnedFromLetter === 'true' && dayNumber) {
+        const day = parseInt(dayNumber);
+        const questionShownKey = `questionShown_day${day}`;
+        const questionShown = localStorage.getItem(questionShownKey);
+        
+        // Only show question if it hasn't been shown before for this day
+        if (!questionShown) {
+            showQuestionModal(day);
+            localStorage.setItem(questionShownKey, 'true');
+        }
+        
+        // Clear the return flag
+        sessionStorage.removeItem('returnedFromLetter');
+        sessionStorage.removeItem('returnedFromDay');
+    }
+}
+
+// Show question modal for a specific day
+function showQuestionModal(dayNumber) {
+    const questionData = DAILY_QUESTIONS[dayNumber];
+    if (!questionData) return;
+    
+    const modal = document.getElementById('question-modal');
+    const questionText = document.getElementById('question-text');
+    const questionInput = document.getElementById('question-answer-input');
+    const questionFeedback = document.getElementById('question-feedback');
+    const questionSubmit = document.getElementById('question-submit');
+    const questionSkip = document.getElementById('question-skip');
+    const modalOverlay = modal.querySelector('.modal-overlay');
+    
+    questionText.textContent = questionData.question;
+    questionInput.value = '';
+    questionFeedback.textContent = '';
+    questionInput.disabled = false;
+    questionSubmit.disabled = false;
+    
+    modal.classList.add('active');
+    questionInput.focus();
+    
+    // Check if answer was already correct
+    const answerCorrectKey = `questionAnswerCorrect_day${dayNumber}`;
+    const wasCorrect = localStorage.getItem(answerCorrectKey) === 'true';
+    const savedAnswerKey = `questionAnswer_day${dayNumber}`;
+    const savedAnswer = localStorage.getItem(savedAnswerKey);
+    
+    if (wasCorrect && savedAnswer) {
+        // Show correct answer (disabled)
+        questionInput.value = savedAnswer;
+        questionInput.disabled = true;
+        questionSubmit.disabled = true;
+        questionFeedback.textContent = '✓ Resposta correcta!';
+        questionFeedback.classList.add('correct');
+        questionFeedback.classList.remove('incorrect');
+    } else {
+        // If answer was incorrect or not answered, start with empty input
+        questionInput.value = '';
+    }
+    
+    // Close modal function
+    function closeModal() {
+        modal.classList.remove('active');
+        questionInput.value = '';
+        questionFeedback.textContent = '';
+        questionFeedback.classList.remove('correct', 'incorrect');
+    }
+    
+    // Submit answer
+    function submitAnswer() {
+        const answer = questionInput.value.trim();
+        if (!answer) {
+            questionFeedback.textContent = 'Introdueix una resposta.';
+            questionFeedback.classList.add('incorrect');
+            questionFeedback.classList.remove('correct');
+            return;
+        }
+        
+        // Validate answer (case insensitive)
+        const correctAnswer = questionData.correctAnswer.toLowerCase().trim();
+        const userAnswer = answer.toLowerCase().trim();
+        
+        if (correctAnswer && correctAnswer !== '') {
+            // Check if answer is correct (case insensitive)
+            if (userAnswer === correctAnswer) {
+                // Correct answer
+                localStorage.setItem(savedAnswerKey, answer);
+                localStorage.setItem(answerCorrectKey, 'true');
+                
+                questionFeedback.textContent = '✓ Resposta correcta!';
+                questionFeedback.classList.add('correct');
+                questionFeedback.classList.remove('incorrect');
+                questionInput.disabled = true;
+                questionSubmit.disabled = true;
+                
+                setTimeout(() => {
+                    closeModal();
+                }, 1500);
+            } else {
+                // Incorrect answer - allow retry
+                questionFeedback.textContent = 'Resposta incorrecta. Torna-ho a provar!';
+                questionFeedback.classList.add('incorrect');
+                questionFeedback.classList.remove('correct');
+                questionInput.focus();
+                questionInput.select();
+            }
+        } else {
+            // No correct answer defined - accept any answer
+            localStorage.setItem(savedAnswerKey, answer);
+            localStorage.setItem(answerCorrectKey, 'true');
+            
+            questionFeedback.textContent = '✓ Resposta guardada!';
+            questionFeedback.classList.add('correct');
+            questionFeedback.classList.remove('incorrect');
+            questionInput.disabled = true;
+            questionSubmit.disabled = true;
+            
+            setTimeout(() => {
+                closeModal();
+            }, 1500);
+        }
+    }
+    
+    // Remove old listeners and add new ones
+    const newSubmitBtn = questionSubmit.cloneNode(true);
+    questionSubmit.parentNode.replaceChild(newSubmitBtn, questionSubmit);
+    newSubmitBtn.addEventListener('click', submitAnswer);
+    
+    const newSkipBtn = questionSkip.cloneNode(true);
+    questionSkip.parentNode.replaceChild(newSkipBtn, questionSkip);
+    newSkipBtn.addEventListener('click', closeModal);
+    
+    questionInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !questionInput.disabled) {
+            submitAnswer();
+        }
+    });
+    
+    modalOverlay.onclick = closeModal;
+    
+    // Close on Escape key
+    const escapeHandler = function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+            document.removeEventListener('keydown', escapeHandler);
+        }
+    };
+    document.addEventListener('keydown', escapeHandler);
 }
 

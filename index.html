@@ -79,6 +79,24 @@
         </div>
     </div>
 
+    <!-- Modal for daily questions -->
+    <div id="question-modal" class="modal question-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content question-modal-content">
+            <div class="modal-icon question-icon">❓</div>
+            <h2 class="modal-title" id="question-title">Pregunta del Dia</h2>
+            <p class="question-text" id="question-text"></p>
+            <div class="question-input-container">
+                <input type="text" id="question-answer-input" class="question-input" placeholder="La teva resposta..." autocomplete="off">
+                <p id="question-feedback" class="question-feedback"></p>
+            </div>
+            <div class="question-buttons">
+                <button class="modal-button question-submit" id="question-submit">Enviar</button>
+                <button class="modal-button question-skip" id="question-skip">Continuar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
 </body>
 </html>
