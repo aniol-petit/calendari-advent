@@ -12,7 +12,7 @@ let easterEggsInitialized = false;
 const DAILY_QUESTIONS = {
     1: { question: "Per començar, una de MOLT fàcil: quants anys farem aquest hivern?", correctAnswer: "4" },
     2: { question: "Com es deia la professora de bio que teníem aleshores?", correctAnswer: "marga" },
-    3: { question: "Quin és el teu lloc preferit per relaxar-te?", correctAnswer: "" },
+    3: { question: "Aquell dia a Barcelona vaig tenir una interacció amb una tercera persona de fora l'insti amb qui vam parlar de tu, recordes qui era? Posa el seu nom (si a sobre recordes què em va dir m'ho dius per WhatsApp i tens premi)", correctAnswer: "Lluís" },
     4: { question: "Quin és el teu animal preferit?", correctAnswer: "" },
     5: { question: "Quin és el teu llibre preferit?", correctAnswer: "" },
     6: { question: "Quin és el teu moment preferit del dia?", correctAnswer: "" },
@@ -163,7 +163,7 @@ function createDoor(dayNumber, isTargetMonth, currentDate, isPastTargetMonth) {
         isUnlocked = currentDate >= dayNumber;
     }
     // To unlock all doors during development, uncomment the line below:
-    isUnlocked = true;
+    // isUnlocked = true;
 
     if (isUnlocked) {
         door.classList.add('unlocked');
@@ -293,15 +293,29 @@ function setupHeartSecret() {
     const message = document.getElementById('heart-secret');
     if (!heart || !message) return;
 
+    // List of messages to randomly select from
+    const heartMessages = [
+        'Mi corazón pulpita por ti!🐙',
+        ''
+    ];
+
     let clickCount = 0;
+    let lastMessageIndex = -1; // Track the last shown message index
 
     heart.addEventListener('click', function() {
         clickCount += 1;
         heart.classList.add('pulse');
         setTimeout(() => heart.classList.remove('pulse'), 400);
 
-        if (clickCount >= 5) {
-            message.textContent = 'Mi corazón pulpita por ti!🐙';
+        if (clickCount >= 1) {
+            // Randomly select a message that's different from the last one
+            let selectedIndex;
+            do {
+                selectedIndex = Math.floor(Math.random() * heartMessages.length);
+            } while (selectedIndex === lastMessageIndex && heartMessages.length > 1);
+            
+            lastMessageIndex = selectedIndex;
+            message.textContent = heartMessages[selectedIndex];
             message.classList.add('visible');
             clickCount = 0;
         }
