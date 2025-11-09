@@ -548,6 +548,11 @@ function checkForReturnFromLetter() {
     }
 }
 
+// Helper function to remove accents from strings for comparison
+function removeAccents(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 // Show question modal for a specific day
 function showQuestionModal(dayNumber) {
     const questionData = DAILY_QUESTIONS[dayNumber];
@@ -607,12 +612,12 @@ function showQuestionModal(dayNumber) {
             return;
         }
         
-        // Validate answer (case insensitive)
-        const correctAnswer = questionData.correctAnswer.toLowerCase().trim();
-        const userAnswer = answer.toLowerCase().trim();
+        // Validate answer (case insensitive and accent insensitive)
+        const correctAnswer = removeAccents(questionData.correctAnswer.toLowerCase().trim());
+        const userAnswer = removeAccents(answer.toLowerCase().trim());
         
         if (correctAnswer && correctAnswer !== '') {
-            // Check if answer is correct (case insensitive)
+            // Check if answer is correct (case and accent insensitive)
             if (userAnswer === correctAnswer) {
                 // Correct answer
                 localStorage.setItem(savedAnswerKey, answer);
