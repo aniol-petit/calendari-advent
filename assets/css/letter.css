@@ -19,7 +19,7 @@
 }
 
 body {
-    font-family: 'Crimson Text', serif;
+    font-family: 'Dancing Script', cursive;
     background: linear-gradient(135deg, #B8C5D6 0%, #9BA8C4 100%);
     min-height: 100vh;
     padding: clamp(1.5rem, 4vw, 2.5rem) clamp(0.75rem, 5vw, 1.75rem);
@@ -160,12 +160,12 @@ body::before {
     position: absolute;
     top: 0;
     left: 0;
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     color: var(--warm-taupe);
     line-height: 1.6;
     max-width: 200px;
     z-index: 1;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Dancing Script', cursive;
     background: transparent;
 }
 
@@ -173,18 +173,18 @@ body::before {
     position: absolute;
     top: 0;
     right: 0;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     color: var(--warm-taupe);
     font-style: italic;
     text-align: right;
     z-index: 1;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Dancing Script', cursive;
     background: transparent;
 }
 
 .letter-greeting {
-    font-family: 'Crimson Text', serif;
-    font-size: 1.1rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
     color: var(--warm-taupe);
     margin-bottom: 1.5rem;
     margin-top: 0.5rem;
@@ -198,14 +198,15 @@ body::before {
 .letter-content {
     position: relative;
     z-index: 1;
-    line-height: 1.9;
-    font-size: 1.1rem;
+    line-height: 1.8;
+    font-size: 1.4rem;
     color: var(--warm-taupe);
     text-align: left;
     padding: 0;
     margin-bottom: 1.5rem;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Dancing Script', cursive;
     background: transparent;
+    font-weight: 500;
 }
 
 .letter-content p {
@@ -234,20 +235,20 @@ body::before {
     color: var(--warm-taupe);
     line-height: 1.8;
     padding-right: 1rem;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Dancing Script', cursive;
     background: transparent;
     position: relative;
     z-index: 1;
 }
 
 .closing-text {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
 .closing-signature {
-    font-family: 'Crimson Text', serif;
-    font-size: 1.1rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.7rem;
     color: var(--warm-taupe);
     margin: 0;
     font-style: italic;
@@ -263,7 +264,7 @@ body::before {
     padding: 0.85rem 1.1rem;
     border-left: 2px dashed rgba(201, 125, 125, 0.4);
     line-height: 1.6;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Dancing Script', cursive;
 }
 
 .letter-postscript span {
@@ -277,7 +278,7 @@ body::before {
     display: inline-block;
     margin-top: 2rem;
     padding: 0.8rem 2rem;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Dancing Script', cursive;
     font-size: 1.1rem;
     background: linear-gradient(135deg, var(--rose-red) 0%, #B86B6B 100%);
     color: white;
@@ -355,7 +356,7 @@ body::before {
 
 
     .letter-content {
-        font-size: 1.05rem;
+        font-size: 1.2rem;
     }
 
     .letter-content p {
@@ -383,21 +384,21 @@ body::before {
     }
 
     .letter-sender-info {
-        font-size: 0.75rem;
+        font-size: 1.0rem;
         max-width: 150px;
     }
 
     .letter-date {
-        font-size: 0.8rem;
+        font-size: 1.0rem;
     }
 
     .letter-greeting {
-        font-size: 1rem;
+        font-size: 1.2rem;
         margin-bottom: 1.2rem;
     }
 
     .letter-content {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 
     .letter-content p {
@@ -414,11 +415,11 @@ body::before {
     }
 
     .closing-text {
-        font-size: 1rem;
+        font-size: 1.3rem;
     }
 
     .closing-signature {
-        font-size: 1.7rem;
+        font-size: 1.5rem;
     }
 
     .letter-postscript {
@@ -448,21 +449,21 @@ body::before {
     }
 
     .letter-sender-info {
-        font-size: 0.7rem;
+        font-size: 0.95rem;
         max-width: 130px;
     }
 
     .letter-date {
-        font-size: 0.75rem;
+        font-size: 0.95rem;
     }
 
     .letter-greeting {
-        font-size: 1rem;
+        font-size: 1.15rem;
         margin-bottom: 1rem;
     }
 
     .letter-content {
-        font-size: 1rem;
+        font-size: 1.15rem;
     }
 
     .letter-placeholder {
@@ -474,11 +475,11 @@ body::before {
     }
 
     .closing-text {
-        font-size: 1rem;
+        font-size: 1.25rem;
     }
 
     .closing-signature {
-        font-size: 1.6rem;
+        font-size: 1.45rem;
     }
 
     .letter-postscript {
@@ -498,19 +499,19 @@ body::before {
     }
 
     .letter-sender-info {
-        font-size: 0.65rem;
+        font-size: 0.9rem;
     }
 
     .letter-date {
-        font-size: 0.7rem;
+        font-size: 0.9rem;
     }
 
     .letter-greeting {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
     }
 
     .letter-content {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
     }
 
     .letter-placeholder {
@@ -522,11 +523,11 @@ body::before {
     }
 
     .closing-text {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
     }
 
     .closing-signature {
-        font-size: 0.9rem;
+        font-size: 1.35rem;
     }
 
     .letter-postscript {

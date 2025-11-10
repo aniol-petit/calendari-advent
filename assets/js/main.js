@@ -13,8 +13,8 @@ const DAILY_QUESTIONS = {
     1: { question: "Per començar, una de MOLT fàcil: quants anys farem aquest hivern?", correctAnswer: "4" },
     2: { question: "Com es deia la professora de bio que teníem aleshores?", correctAnswer: "marga" },
     3: { question: "Aquell dia a Barcelona vaig tenir una interacció amb una tercera persona de fora l'insti amb qui vam parlar de tu, recordes qui era? Posa el seu nom (si a sobre recordes què em va dir m'ho dius per WhatsApp i tens premi)", correctAnswer: "Lluís" },
-    4: { question: "Quin és el teu animal preferit?", correctAnswer: "" },
-    5: { question: "Quin és el teu llibre preferit?", correctAnswer: "" },
+    4: { question: "Avui toca una de les preguntes més controversials de tota la relació...qui dels dos es va llençar? Escriu el nom:", correctAnswer: "jana" },
+    5: { question: "A Tenerife vam sortir una nit de festa i vas perdre una cosa, recordes què era? Escriu el nom de l'objecte:", correctAnswer: "anell" },
     6: { question: "Quin és el teu moment preferit del dia?", correctAnswer: "" },
     7: { question: "Quin és el teu record preferit amb mi?", correctAnswer: "" },
     8: { question: "Quin és el teu somni més gran?", correctAnswer: "" },
@@ -221,11 +221,11 @@ function showLockedMessage(dayNumber) {
         const daysUntil = dayNumber - currentDate;
         title = "Carta bloquejada";
         message = daysUntil === 1 
-            ? `Aquesta carta estarà disponible demà! 💕`
-            : `Aquesta carta estarà disponible en ${daysUntil} dies. 💕`;
+            ? `Aquesta carta estarà disponible demà!`
+            : `Aquesta carta estarà disponible en ${daysUntil} dies.`;
     } else {
         title = "Carta bloquejada";
-        message = "Aquesta carta estarà disponible al desembre! 💕";
+        message = "Aquesta carta estarà disponible al desembre!";
     }
     
     showModal(title, message);
@@ -296,6 +296,7 @@ function setupHeartSecret() {
     // List of messages to randomly select from
     const heartMessages = [
         'Mi corazón pulpita por ti!🐙',
+        'Anem a vendre el bacallà!',
         ''
     ];
 
