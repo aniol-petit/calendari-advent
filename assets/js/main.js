@@ -15,9 +15,9 @@ const DAILY_QUESTIONS = {
     3: { question: "Aquell dia a Barcelona vaig tenir una interacció amb una tercera persona de fora l'insti amb qui vam parlar de tu, recordes qui era? Posa el seu nom (si a sobre recordes què em va dir m'ho dius per WhatsApp i tens premi)", correctAnswer: "Lluís" },
     4: { question: "Avui toca una de les preguntes més controversials de tota la relació...qui dels dos es va llençar? Escriu el nom:", correctAnswer: "jana" },
     5: { question: "A Tenerife vam sortir una nit de festa i vas perdre una cosa, recordes què era? Escriu el nom de l'objecte:", correctAnswer: "anell" },
-    6: { question: "Quin és el teu moment preferit del dia?", correctAnswer: "" },
-    7: { question: "Quin és el teu record preferit amb mi?", correctAnswer: "" },
-    8: { question: "Quin és el teu somni més gran?", correctAnswer: "" },
+    6: { question: "A Menorca vas aconseguir que em fes un pico amb dos amics meus, qui eren? Escriu els noms amb que els conec separats per una ,", correctAnswer: "pep, xifra" },
+    7: { question: "Com es deia el teu company de pis brutalment otaku?", correctAnswer: "eric" },
+    8: { question: "Un dels regals que et vaig fer per aquell aniversari (i possiblement del que més orgullós estic) va ser una cançó, en recordes el títol? (si et surt malament prova sense signes de puntuació)", correctAnswer: "Tu i jo no vull res més" },
     9: { question: "Quin és el teu lloc de vacances preferit?", correctAnswer: "" },
     10: { question: "Quin és el teu tipus de música preferit?", correctAnswer: "" },
     11: { question: "Quin és el teu hobby preferit?", correctAnswer: "" },
@@ -618,8 +618,26 @@ function showQuestionModal(dayNumber) {
         const userAnswer = removeAccents(answer.toLowerCase().trim());
         
         if (correctAnswer && correctAnswer !== '') {
-            // Check if answer is correct (case and accent insensitive)
-            if (userAnswer === correctAnswer) {
+            let isCorrect = false;
+
+            if (correctAnswer.includes(',')) {
+                const normalizeParts = value => value
+                    .split(',')
+                    .map(part => part.trim())
+                    .filter(part => part.length > 0)
+                    .sort();
+
+                const correctParts = normalizeParts(correctAnswer);
+                const userParts = normalizeParts(userAnswer);
+
+                if (correctParts.length > 0 && correctParts.length === userParts.length) {
+                    isCorrect = correctParts.every((part, index) => part === userParts[index]);
+                }
+            } else {
+                isCorrect = userAnswer === correctAnswer;
+            }
+
+            if (isCorrect) {
                 // Correct answer
                 localStorage.setItem(savedAnswerKey, answer);
                 localStorage.setItem(answerCorrectKey, 'true');
