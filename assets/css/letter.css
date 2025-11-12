@@ -169,6 +169,11 @@ body::before {
     background: transparent;
 }
 
+.letter-sender-info .sender-line {
+    display: block;
+    white-space: nowrap;
+}
+
 .letter-date {
     position: absolute;
     top: 0;
@@ -379,7 +384,7 @@ body::before {
     }
 
     .letter-header-section {
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
         min-height: auto;
         display: grid;
         grid-template-columns: 1fr auto;
