@@ -152,7 +152,7 @@ body::before {
 /* Letter Header Section - Traditional Letter Layout */
 .letter-header-section {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     min-height: 100px;
 }
 
@@ -167,10 +167,6 @@ body::before {
     z-index: 1;
     font-family: 'Dancing Script', cursive;
     background: transparent;
-}
-
-.letter-sender-info .sender-line {
-    display: block;
     white-space: nowrap;
 }
 
@@ -191,7 +187,7 @@ body::before {
     font-family: 'Dancing Script', cursive;
     font-size: 1.4rem;
     color: var(--warm-taupe);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.85rem;
     margin-top: 0.5rem;
     font-weight: 400;
     background: transparent;
@@ -384,7 +380,7 @@ body::before {
     }
 
     .letter-header-section {
-        margin-bottom: 2rem;
+        margin-bottom: 2.3rem;
         min-height: auto;
         display: grid;
         grid-template-columns: 1fr auto;
