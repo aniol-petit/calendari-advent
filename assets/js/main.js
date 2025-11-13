@@ -19,7 +19,7 @@ const DAILY_QUESTIONS = {
     7: { question: "Com es deia el teu company de pis brutalment otaku?", correctAnswer: "eric" },
     8: { question: "Un dels regals que et vaig fer per aquell aniversari (i possiblement del que més orgullós estic) va ser una cançó, en recordes el títol? (si et surt malament prova sense signes de puntuació)", correctAnswer: "tu i jo no vull res més" },
     9: { question: "He parlat del teu vestit, però no creguis que només recordo això del teu outfit, el recordo sencer. I tu? Per demostrar-ho, quin calçat duies?", correctAnswer: "martens" },
-    10: { question: "Quin és el teu tipus de música preferit?", correctAnswer: "" },
+    10: { question: "Ja que estem amb els gossos, quina és la meva raça de gos preferida?", correctAnswer: "golden retriever" },
     11: { question: "Quin és el teu hobby preferit?", correctAnswer: "" },
     12: { question: "Quin és el teu record de la infància preferit?", correctAnswer: "" },
     13: { question: "Quin és el teu tipus de pel·lícula preferit?", correctAnswer: "" },
